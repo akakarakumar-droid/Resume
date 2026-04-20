@@ -1,1 +1,1132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ananda Kumar Kakara — BI & Analytics Professional</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0a1628;
+    --card: #111f38;
+    --accent: #f0a500;
+    --accent2: #e05a00;
+    --light: #f5f0e8;
+    --muted: #8a9ab5;
+    --border: rgba(240,165,0,0.18);
+    --glow: rgba(240,165,0,0.07);
+  }
 
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--navy);
+    color: var(--light);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.75;
+    min-height: 100vh;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(240,165,0,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(240,165,0,0.025) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 6%;
+    height: 64px;
+    background: rgba(10,22,40,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--light);
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .nav-brand span { color: var(--accent); }
+
+  .nav-links {
+    display: flex;
+    gap: 4px;
+    list-style: none;
+  }
+
+  .nav-links li a {
+    display: block;
+    padding: 8px 16px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 1px;
+    color: var(--muted);
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+
+  .nav-links li a:hover,
+  .nav-links li a.active {
+    color: var(--accent);
+    background: var(--glow);
+  }
+
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 4px;
+  }
+
+  .hamburger span {
+    width: 22px; height: 2px;
+    background: var(--muted);
+    border-radius: 2px;
+    transition: all 0.3s;
+  }
+
+  @media (max-width: 680px) {
+    .hamburger { display: flex; }
+    .nav-links {
+      display: none;
+      position: absolute;
+      top: 64px; left: 0; right: 0;
+      flex-direction: column;
+      background: rgba(10,22,40,0.98);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 6%;
+      gap: 4px;
+    }
+    .nav-links.open { display: flex; }
+  }
+
+  /* ── PAGES ── */
+  .page { display: none; padding-top: 64px; min-height: 100vh; position: relative; z-index: 1; }
+  .page.active { display: block; }
+
+  .container { max-width: 900px; margin: 0 auto; padding: 72px 6%; }
+
+  /* ── HOME ── */
+  .home-hero {
+    min-height: calc(100vh - 64px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 6%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .home-hero::after {
+    content: 'BI';
+    position: absolute;
+    right: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(180px, 22vw, 340px);
+    font-weight: 900;
+    color: rgba(240,165,0,0.035);
+    line-height: 1;
+    pointer-events: none;
+    letter-spacing: -15px;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--glow);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 5px 16px;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-family: 'DM Mono', monospace;
+    margin-bottom: 28px;
+    width: fit-content;
+    animation: fadeUp 0.7s ease both;
+  }
+
+  .badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: blink 2s infinite;
+  }
+
+  @keyframes blink {
+    0%,100% { opacity:1; } 50% { opacity:0.3; }
+  }
+
+  .home-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(48px, 7vw, 88px);
+    font-weight: 900;
+    line-height: 1.0;
+    letter-spacing: -2px;
+    margin-bottom: 14px;
+    animation: fadeUp 0.7s 0.1s ease both;
+  }
+
+  .home-hero h1 em { font-style: normal; color: var(--accent); }
+
+  .home-hero .sub {
+    font-size: clamp(13px, 1.6vw, 17px);
+    color: var(--muted);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-family: 'DM Mono', monospace;
+    margin-bottom: 36px;
+    animation: fadeUp 0.7s 0.2s ease both;
+  }
+
+  .home-hero .intro {
+    max-width: 560px;
+    font-size: 17px;
+    color: rgba(245,240,232,0.75);
+    margin-bottom: 44px;
+    animation: fadeUp 0.7s 0.3s ease both;
+  }
+
+  .home-btns {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    animation: fadeUp 0.7s 0.4s ease both;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: var(--navy);
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 10px;
+    padding: 14px 28px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+
+  .btn-primary:hover { opacity: 0.88; transform: translateY(-2px); }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    color: var(--light);
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 28px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+  .stat-strip {
+    display: flex;
+    gap: 0;
+    margin-top: 64px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    width: fit-content;
+    animation: fadeUp 0.7s 0.5s ease both;
+  }
+
+  .stat {
+    padding: 20px 36px;
+    border-right: 1px solid var(--border);
+    background: var(--glow);
+    text-align: center;
+  }
+
+  .stat:last-child { border-right: none; }
+
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+    display: block;
+  }
+
+  .stat-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--muted);
+    margin-top: 5px;
+    display: block;
+    font-family: 'DM Mono', monospace;
+  }
+
+  @media (max-width: 600px) {
+    .stat-strip { flex-direction: column; width: 100%; }
+    .stat { border-right: none; border-bottom: 1px solid var(--border); }
+    .stat:last-child { border-bottom: none; }
+  }
+
+  /* ── SECTION LABEL ── */
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 44px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    max-width: 50px;
+    height: 1px;
+    background: var(--accent);
+    opacity: 0.4;
+  }
+
+  /* ── ABOUT ── */
+  .about-intro {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(20px, 2.4vw, 26px);
+    font-weight: 400;
+    line-height: 1.65;
+    color: var(--light);
+    border-left: 3px solid var(--accent);
+    padding-left: 28px;
+    margin-bottom: 56px;
+  }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    margin-bottom: 56px;
+  }
+
+  .skill-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    transition: border-color 0.3s, transform 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .skill-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s;
+  }
+
+  .skill-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+  .skill-card:hover::before { transform: scaleX(1); }
+
+  .skill-name { font-size: 15px; font-weight: 500; margin-bottom: 10px; }
+
+  .skill-bar {
+    height: 3px;
+    background: rgba(255,255,255,0.07);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 7px;
+  }
+
+  .skill-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 2px;
+  }
+
+  .skill-years { font-size: 12px; color: var(--muted); font-family: 'DM Mono', monospace; }
+
+  .skill-link {
+    display: inline-block;
+    margin-top: 10px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    text-decoration: none;
+    border: 1px solid var(--border);
+    padding: 3px 12px;
+    border-radius: 100px;
+    background: var(--glow);
+    transition: border-color 0.2s;
+  }
+
+  .skill-link:hover { border-color: var(--accent); }
+
+  /* ── EDUCATION ── */
+  .edu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+  }
+
+  .edu-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px 28px;
+  }
+
+  .edu-degree { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 700; margin-bottom: 4px; }
+  .edu-year { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--accent); }
+
+  /* ── CERT ── */
+  .cert-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px 28px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    text-decoration: none;
+    color: var(--light);
+    transition: all 0.3s;
+    width: fit-content;
+    margin-bottom: 56px;
+  }
+
+  .cert-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+
+  /* ── EXPERIENCE TIMELINE ── */
+  .timeline { position: relative; }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 8px; bottom: 8px;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--accent), transparent);
+  }
+
+  .job {
+    padding-left: 36px;
+    margin-bottom: 52px;
+    position: relative;
+  }
+
+  .job::before {
+    content: '';
+    position: absolute;
+    left: -5px; top: 10px;
+    width: 11px; height: 11px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 10px rgba(240,165,0,0.4);
+  }
+
+  .job-header { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-start; margin-bottom: 4px; }
+
+  .job-role {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    flex: 1;
+    min-width: 180px;
+  }
+
+  .job-period {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    background: var(--glow);
+    border: 1px solid var(--border);
+    padding: 3px 12px;
+    border-radius: 100px;
+    white-space: nowrap;
+    align-self: center;
+  }
+
+  .job-company { font-size: 14px; color: var(--muted); margin-bottom: 3px; }
+  .job-industry { font-size: 11px; color: var(--accent2); font-family: 'DM Mono', monospace; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 14px; }
+
+  .job-tools { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 14px; }
+
+  .tool-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    padding: 2px 10px;
+    border-radius: 4px;
+    background: rgba(240,165,0,0.09);
+    border: 1px solid rgba(240,165,0,0.18);
+    color: var(--accent);
+  }
+
+  .job-points { list-style: none; }
+
+  .job-points li {
+    font-size: 14px;
+    color: rgba(245,240,232,0.72);
+    padding: 3px 0 3px 18px;
+    position: relative;
+    line-height: 1.6;
+  }
+
+  .job-points li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-size: 11px; top: 5px; }
+
+  /* ── NOTES ── */
+  .notes-intro {
+    font-size: 16px;
+    color: var(--muted);
+    max-width: 580px;
+    margin-bottom: 48px;
+  }
+
+  .notes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+
+  .note-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+    transition: all 0.3s;
+    text-decoration: none;
+    color: var(--light);
+    display: block;
+  }
+
+  .note-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+
+  .note-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .note-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; margin-bottom: 10px; }
+  .note-desc { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+  /* ── CONTACT FORM ── */
+  .contact-intro {
+    font-size: 16px;
+    color: var(--muted);
+    max-width: 560px;
+    margin-bottom: 48px;
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+
+  @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
+
+  .form-field { display: flex; flex-direction: column; gap: 8px; }
+  .form-field.full { grid-column: 1 / -1; }
+
+  .form-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .form-input, .form-textarea {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 18px;
+    color: var(--light);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 300;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    width: 100%;
+  }
+
+  .form-input::placeholder, .form-textarea::placeholder { color: var(--muted); opacity: 0.55; }
+
+  .form-input:focus, .form-textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(240,165,0,0.07);
+  }
+
+  .form-textarea { resize: vertical; min-height: 150px; line-height: 1.6; }
+
+  .form-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: var(--navy);
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 10px;
+    padding: 15px 32px;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.2s;
+    margin-top: 8px;
+  }
+
+  .form-btn:hover { opacity: 0.88; transform: translateY(-2px); }
+
+  .form-success {
+    display: none;
+    background: rgba(240,165,0,0.07);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 24px;
+    color: var(--accent);
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    margin-top: 16px;
+    text-align: center;
+  }
+
+  .contact-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+    margin-bottom: 56px;
+  }
+
+  .contact-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-decoration: none;
+    color: var(--light);
+    transition: all 0.3s;
+  }
+
+  .contact-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+
+  .contact-icon {
+    width: 40px; height: 40px;
+    background: var(--glow);
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .contact-detail { font-size: 11px; color: var(--muted); font-family: 'DM Mono', monospace; margin-bottom: 2px; }
+  .contact-value { font-size: 13px; font-weight: 500; }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 32px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 1px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 52px 0;
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-brand" onclick="showPage('home')">Ananda <span>Kumar</span></a>
+  <div style="position:relative;margin-left:8px;flex-shrink:0;">
+    <button onclick="toggleDropdown(event)" style="display:inline-flex;align-items:center;gap:7px;background:linear-gradient(135deg,#f0a500,#e05a00);color:#0a1628;font-family:'DM Mono',monospace;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;border:none;border-radius:8px;padding:8px 18px;cursor:pointer;">⬇ Download CV ▾</button>
+    <div id="dlDropdown" style="display:none;position:absolute;top:calc(100% + 8px);right:0;background:#111f38;border:1px solid rgba(240,165,0,0.25);border-radius:10px;overflow:hidden;min-width:180px;z-index:999;box-shadow:0 8px 32px rgba(0,0,0,0.4);">
+      <a onclick="downloadCV('pdf')" style="display:flex;align-items:center;gap:10px;padding:12px 18px;color:#f5f0e8;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1px;cursor:pointer;text-decoration:none;transition:background 0.2s;" onmouseover="this.style.background='rgba(240,165,0,0.1)'" onmouseout="this.style.background='transparent'">📄 Download PDF</a>
+      <div style="height:1px;background:rgba(240,165,0,0.15);margin:0 12px;"></div>
+      <a onclick="downloadCV('docx')" style="display:flex;align-items:center;gap:10px;padding:12px 18px;color:#f5f0e8;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1px;cursor:pointer;text-decoration:none;transition:background 0.2s;" onmouseover="this.style.background='rgba(240,165,0,0.1)'" onmouseout="this.style.background='transparent'">📝 Download Word</a>
+    </div>
+  </div>
+  <div class="hamburger" onclick="toggleMenu()" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+  <ul class="nav-links" id="navLinks">
+    <li><a onclick="showPage('home')" class="active" id="nav-home">Home</a></li>
+    <li><a onclick="showPage('about')" id="nav-about">About Me</a></li>
+    <li><a onclick="showPage('experience')" id="nav-experience">Experience</a></li>
+    <li><a onclick="showPage('notes')" id="nav-notes">Notes</a></li>
+    <li><a onclick="showPage('contact')" id="nav-contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- HOME PAGE -->
+<!-- ══════════════════════════════════════════ -->
+<div class="page active" id="page-home">
+  <div class="home-hero">
+    <div class="badge">Open to Opportunities · UAE &amp; Global</div>
+    <h1>Ananda<br><em>Kumar</em><br>Kakara</h1>
+    <p class="sub">Business Intelligence &amp; Analytics Professional</p>
+    <p class="intro">
+      14+ years turning complex data into clear decisions — specialising in Tableau, Power BI, Snowflake, and Azure across hospitality, finance, technology, and industrial sectors.
+    </p>
+    <div class="home-btns">
+      <a class="btn-primary" onclick="showPage('contact')">✉ Get In Touch</a>
+      <a class="btn-secondary" onclick="showPage('experience')">View Experience →</a>
+      <div style="position:relative;">
+        <button onclick="toggleDropdown(event)" class="btn-secondary" style="border-color:rgba(240,165,0,0.4);">⬇ Download CV ▾</button>
+        <div id="dlDropdown2" style="display:none;position:absolute;top:calc(100% + 8px);left:0;background:#111f38;border:1px solid rgba(240,165,0,0.25);border-radius:10px;overflow:hidden;min-width:180px;z-index:999;box-shadow:0 8px 32px rgba(0,0,0,0.4);">
+          <a onclick="downloadCV('pdf')" style="display:flex;align-items:center;gap:10px;padding:12px 18px;color:#f5f0e8;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1px;cursor:pointer;text-decoration:none;" onmouseover="this.style.background='rgba(240,165,0,0.1)'" onmouseout="this.style.background='transparent'">📄 Download PDF</a>
+          <div style="height:1px;background:rgba(240,165,0,0.15);margin:0 12px;"></div>
+          <a onclick="downloadCV('docx')" style="display:flex;align-items:center;gap:10px;padding:12px 18px;color:#f5f0e8;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1px;cursor:pointer;text-decoration:none;" onmouseover="this.style.background='rgba(240,165,0,0.1)'" onmouseout="this.style.background='transparent'">📝 Download Word</a>
+        </div>
+      </div>
+    </div>
+    <div class="stat-strip">
+      <div class="stat"><span class="stat-num">14+</span><span class="stat-label">Years Experience</span></div>
+      <div class="stat"><span class="stat-num">8</span><span class="stat-label">Years Tableau</span></div>
+      <div class="stat"><span class="stat-num">8</span><span class="stat-label">Years Power BI</span></div>
+      <div class="stat"><span class="stat-num">6+</span><span class="stat-label">Industries Served</span></div>
+    </div>
+  </div>
+  <footer>© 2026 · Ananda Kumar Kakara · BI &amp; Analytics Professional · UAE</footer>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- ABOUT ME PAGE -->
+<!-- ══════════════════════════════════════════ -->
+<div class="page" id="page-about">
+  <div class="container">
+    <div class="section-label">About Me</div>
+    <p class="about-intro">
+      A Business Intelligence and Analytics professional with 14+ years of experience building dashboards and data solutions that drive decisions — across hospitality, banking, technology, energy, and automotive sectors.
+    </p>
+
+    <div class="section-label">Technical Skills</div>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="skill-name">⚡ Tableau Desktop</div>
+        <div class="skill-bar"><div class="skill-fill" style="width:100%"></div></div>
+        <div class="skill-years">8 years · Expert</div>
+        <a class="skill-link" href="https://public.tableau.com/app/profile/anand4537/vizzes" target="_blank">🌐 View My Vizzes →</a>
+      </div>
+      <div class="skill-card">
+        <div class="skill-name">📊 Power BI</div>
+        <div class="skill-bar"><div class="skill-fill" style="width:100%"></div></div>
+        <div class="skill-years">8 years · Desktop · Server · Cloud · Bridge</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-name">🗄️ MS SQL Server</div>
+        <div class="skill-bar"><div class="skill-fill" style="width:65%"></div></div>
+        <div class="skill-years">5 years · Proficient</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-name">❄️ Snowflake</div>
+        <div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div>
+        <div class="skill-years">Cloud Data Warehouse · Advanced</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-name">☁️ Azure</div>
+        <div class="skill-bar"><div class="skill-fill" style="width:70%"></div></div>
+        <div class="skill-years">Cloud · Data Pipelines</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-name">📋 MS Excel (Advanced)</div>
+        <div class="skill-bar"><div class="skill-fill" style="width:100%"></div></div>
+        <div class="skill-years">8 years · Power Query · Pivot</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-name">📑 MS PowerPoint</div>
+        <div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div>
+        <div class="skill-years">Presentations · Data Storytelling</div>
+      </div>
+    </div>
+
+    <hr class="divider">
+    <div class="section-label">Certification</div>
+    <a class="cert-card" href="https://www.credly.com/badges/aa16825a-8d05-4db8-82b8-d9793ebe1f5d/linked_in?t=sc396y" target="_blank">
+      <div style="font-size:36px;">🏅</div>
+      <div>
+        <div style="font-size:16px; font-weight:500; margin-bottom:4px;">Tableau Desktop Certified</div>
+        <div style="font-family:'DM Mono',monospace; font-size:11px; color:var(--accent);">View Badge on Credly →</div>
+      </div>
+    </a>
+
+    <div class="section-label">Education</div>
+    <div class="edu-grid">
+      <div class="edu-card">
+        <div class="edu-degree">MBA – Finance &amp; Computers</div>
+        <div class="edu-year">2007 – 2009</div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-degree">B.Com – Commerce &amp; Statistics</div>
+        <div class="edu-year">2005 – 2007</div>
+      </div>
+    </div>
+  </div>
+  <footer>© 2026 · Ananda Kumar Kakara · BI &amp; Analytics Professional · UAE</footer>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- EXPERIENCE PAGE -->
+<!-- ══════════════════════════════════════════ -->
+<div class="page" id="page-experience">
+  <div class="container">
+    <div class="section-label">Professional Experience</div>
+    <div class="timeline">
+
+      <div class="job">
+        <div class="job-header">
+          <div class="job-role">Senior BI Engineer</div>
+          <div class="job-period">2024 – 2026</div>
+        </div>
+        <div class="job-company">MIRAL – Miral Experiences</div>
+        <div class="job-industry">Hospitality · Retail</div>
+        <div class="job-tools">
+          <span class="tool-tag">Tableau</span><span class="tool-tag">Power BI</span><span class="tool-tag">Snowflake</span><span class="tool-tag">Azure</span>
+        </div>
+        <ul class="job-points">
+          <li>Led end-to-end dashboard projects — requirements gathering through deployment</li>
+          <li>Partnered with stakeholders to translate KPIs into effective BI solutions</li>
+          <li>Drove BI governance: access management, usage monitoring, documentation</li>
+          <li>Enabled self-service BI with trusted data sources and well-designed analytical products</li>
+          <li>Collaborated with data engineers and governance teams to ensure data quality and lineage</li>
+        </ul>
+      </div>
+
+      <div class="job">
+        <div class="job-header">
+          <div class="job-role">Senior Specialist - BI Engineer</div>
+          <div class="job-period">2022 – 2024</div>
+        </div>
+        <div class="job-company">L&amp;T – Truist Financial Corp</div>
+        <div class="job-industry">Financial Services · Analytics</div>
+        <div class="job-tools">
+          <span class="tool-tag">Tableau</span><span class="tool-tag">Power BI</span><span class="tool-tag">MS SQL</span><span class="tool-tag">Snowflake</span><span class="tool-tag">Tableau Cloud</span>
+        </div>
+        <ul class="job-points">
+          <li>Designed and maintained analytics dashboards for banking operations</li>
+          <li>Served as SME for stakeholder requirements gathering</li>
+          <li>Implemented Agile methodologies using JIRA</li>
+          <li>Optimised dashboard performance and user access governance</li>
+        </ul>
+      </div>
+
+      <div class="job">
+        <div class="job-header">
+          <div class="job-role">Assistant Team Lead</div>
+          <div class="job-period">2021 – 2022</div>
+        </div>
+        <div class="job-company">Tech Mahindra – GE</div>
+        <div class="job-industry">Construction · Industrial · Energy</div>
+        <div class="job-tools">
+          <span class="tool-tag">Tableau</span><span class="tool-tag">MS SQL</span>
+        </div>
+        <ul class="job-points">
+          <li>Developed advanced dashboards and led performance optimisation initiatives</li>
+          <li>Global collaboration for delivering actionable insights</li>
+          <li>Established best practices in visualisation and dashboard design</li>
+        </ul>
+      </div>
+
+      <div class="job">
+        <div class="job-header">
+          <div class="job-role">Systems Analyst</div>
+          <div class="job-period">2019 – 2021</div>
+        </div>
+        <div class="job-company">TCS – Apple Inc.</div>
+        <div class="job-industry">Technology · Analytics</div>
+        <div class="job-tools">
+          <span class="tool-tag">Tableau</span><span class="tool-tag">PostgreSQL</span>
+        </div>
+        <ul class="job-points">
+          <li>Built BI dashboards and enabled self-service analytics for business teams</li>
+          <li>Delivered real-time visualisations with continuous upgrades</li>
+          <li>Supported privacy and secure access management</li>
+        </ul>
+      </div>
+
+      <div class="job">
+        <div class="job-header">
+          <div class="job-role">Data Researcher</div>
+          <div class="job-period">2015 – 2019</div>
+        </div>
+        <div class="job-company">S&amp;P Global – AB Volvo</div>
+        <div class="job-industry">Transportation · Automotive · Construction</div>
+        <div class="job-tools">
+          <span class="tool-tag">Tableau</span><span class="tool-tag">Excel</span><span class="tool-tag">SQL</span>
+        </div>
+        <ul class="job-points">
+          <li>Delivered BI solutions for fleet monitoring and business planning</li>
+          <li>Transformed raw data into actionable dashboards supporting strategic decisions</li>
+        </ul>
+      </div>
+
+      <div class="job">
+        <div class="job-header">
+          <div class="job-role">Data Researcher</div>
+          <div class="job-period">2010 – 2015</div>
+        </div>
+        <div class="job-company">S&amp;P Global (Capital IQ)</div>
+        <div class="job-industry">Financial Services · Analytics</div>
+        <div class="job-tools">
+          <span class="tool-tag">Power BI</span><span class="tool-tag">Excel</span><span class="tool-tag">SQL</span>
+        </div>
+        <ul class="job-points">
+          <li>Designed financial dashboards integrating multi-source data for analysis</li>
+          <li>Delivered performance tracking and trend analytics</li>
+          <li>Drove continuous improvement through iterative enhancements</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+  <footer>© 2026 · Ananda Kumar Kakara · BI &amp; Analytics Professional · UAE</footer>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- NOTES PAGE -->
+<!-- ══════════════════════════════════════════ -->
+<div class="page" id="page-notes">
+  <div class="container">
+    <div class="section-label">Notes</div>
+    <p class="notes-intro">
+      Practical insights from 14+ years in Business Intelligence — on dashboards, data storytelling, BI governance, and working with stakeholders across industries.
+    </p>
+    <div class="notes-grid">
+      <div class="note-card">
+        <span class="note-tag">Dashboard Design</span>
+        <div class="note-title">Less is More: Designing Dashboards Executives Actually Use</div>
+        <p class="note-desc">Why most BI dashboards fail — and how simplifying to three KPIs transformed stakeholder engagement at a major UAE hospitality group.</p>
+      </div>
+      <div class="note-card">
+        <span class="note-tag">BI Governance</span>
+        <div class="note-title">Access Management in Enterprise BI Environments</div>
+        <p class="note-desc">A practical guide to managing data access, usage monitoring, and documentation at scale — lessons from Tableau Cloud and Power BI deployments.</p>
+      </div>
+      <div class="note-card">
+        <span class="note-tag">Snowflake</span>
+        <div class="note-title">Connecting Tableau to Snowflake: Performance Optimisation Tips</div>
+        <p class="note-desc">How to structure your Snowflake queries and Tableau extracts to dramatically speed up dashboard load times in production environments.</p>
+      </div>
+      <div class="note-card">
+        <span class="note-tag">Stakeholder Management</span>
+        <div class="note-title">Translating Business Requirements into BI Solutions</div>
+        <p class="note-desc">A repeatable framework for requirements gathering — from stakeholder interviews to first dashboard prototype — refined across banking, retail, and energy sectors.</p>
+      </div>
+      <div class="note-card">
+        <span class="note-tag">Self-Service BI</span>
+        <div class="note-title">Enabling Self-Service Analytics Without Losing Data Trust</div>
+        <p class="note-desc">How to empower business users with self-service tools while maintaining a single source of truth — governance strategies that actually work.</p>
+      </div>
+      <div class="note-card">
+        <span class="note-tag">Career</span>
+        <div class="note-title">14 Years in BI: What I Wish I Knew at the Start</div>
+        <p class="note-desc">From data researcher to Senior BI Engineer — the skills, mindset shifts, and career decisions that made the biggest difference.</p>
+      </div>
+    </div>
+  </div>
+  <footer>© 2026 · Ananda Kumar Kakara · BI &amp; Analytics Professional · UAE</footer>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- CONTACT PAGE -->
+<!-- ══════════════════════════════════════════ -->
+<div class="page" id="page-contact">
+  <div class="container">
+    <div class="section-label">Contact</div>
+    <p class="contact-intro">
+      Open to BI and Analytics opportunities across the UAE and globally. Fill in the form below and your message will go directly to Ananda.
+    </p>
+
+    <div class="contact-cards">
+      <a class="contact-card" href="mailto:kakaraanandkumar6@gmail.com">
+        <div class="contact-icon">✉️</div>
+        <div><div class="contact-detail">Email</div><div class="contact-value">kakaraanandkumar6@gmail.com</div></div>
+      </a>
+      <a class="contact-card" href="tel:+971508391732">
+        <div class="contact-icon">📱</div>
+        <div><div class="contact-detail">UAE Mobile</div><div class="contact-value">+971 50 839 1732</div></div>
+      </a>
+      <a class="contact-card" href="tel:+919966989294">
+        <div class="contact-icon">📞</div>
+        <div><div class="contact-detail">India Mobile</div><div class="contact-value">+91 9966989294</div></div>
+      </a>
+      <a class="contact-card" href="https://www.linkedin.com/in/ananda-kumar-kakara-3b6b9115b" target="_blank">
+        <div class="contact-icon">🔗</div>
+        <div><div class="contact-detail">LinkedIn</div><div class="contact-value">ananda-kumar-kakara</div></div>
+      </a>
+      <a class="contact-card" href="https://www.naukrigulf.com/mnj/userProfile/myCV?source=gnbHeader" target="_blank">
+        <div class="contact-icon">💼</div>
+        <div><div class="contact-detail">Naukri Gulf</div><div class="contact-value">View My Profile</div></div>
+      </a>
+    </div>
+
+    <hr class="divider" style="margin-top:0;">
+
+    <div class="section-label">Send a Message</div>
+    <form id="recruiterForm" onsubmit="sendMessage(event)">
+      <div class="form-grid">
+        <div class="form-field">
+          <label class="form-label">Your Name</label>
+          <input class="form-input" type="text" id="senderName" placeholder="e.g. Sarah Al Mansoori" required />
+        </div>
+        <div class="form-field">
+          <label class="form-label">Company Name</label>
+          <input class="form-input" type="text" id="companyName" placeholder="e.g. Accenture UAE" required />
+        </div>
+        <div class="form-field full">
+          <label class="form-label">Subject</label>
+          <input class="form-input" type="text" id="subject" placeholder="e.g. Senior BI Analyst Opportunity" required />
+        </div>
+        <div class="form-field full">
+          <label class="form-label">What Would You Like to Discuss?</label>
+          <textarea class="form-textarea" id="message" placeholder="Tell Ananda about the role, project, or opportunity you have in mind..." required></textarea>
+        </div>
+      </div>
+      <button class="form-btn" type="submit">✉ Send Message</button>
+      <div class="form-success" id="successMsg">✅ Your message has been sent! Ananda will get back to you soon.</div>
+    </form>
+  </div>
+  <footer>© 2026 · Ananda Kumar Kakara · BI &amp; Analytics Professional · UAE</footer>
+</div>
+
+<script>
+  const PDF_B64  = 'JVBERi0xLjQKJZOMi54gUmVwb3J0TGFiIEdlbmVyYXRlZCBQREYgZG9jdW1lbnQgKG9wZW5zb3VyY2UpCjEgMCBvYmoKPDwKL0YxIDIgMCBSIC9GMiAzIDAgUiAvRjMgNSAwIFIKPj4KZW5kb2JqCjIgMCBvYmoKPDwKL0Jhc2VGb250IC9IZWx2ZXRpY2EgL0VuY29kaW5nIC9XaW5BbnNpRW5jb2RpbmcgL05hbWUgL0YxIC9TdWJ0eXBlIC9UeXBlMSAvVHlwZSAvRm9udAo+PgplbmRvYmoKMyAwIG9iago8PAovQmFzZUZvbnQgL0hlbHZldGljYS1Cb2xkIC9FbmNvZGluZyAvV2luQW5zaUVuY29kaW5nIC9OYW1lIC9GMiAvU3VidHlwZSAvVHlwZTEgL1R5cGUgL0ZvbnQKPj4KZW5kb2JqCjQgMCBvYmoKPDwKL0NvbnRlbnRzIDEwIDAgUiAvTWVkaWFCb3ggWyAwIDAgNjEyIDc5MiBdIC9QYXJlbnQgOSAwIFIgL1Jlc291cmNlcyA8PAovRm9udCAxIDAgUiAvUHJvY1NldCBbIC9QREYgL1RleHQgL0ltYWdlQiAvSW1hZ2VDIC9JbWFnZUkgXQo+PiAvUm90YXRlIDAgL1RyYW5zIDw8Cgo+PiAKICAvVHlwZSAvUGFnZQo+PgplbmRvYmoKNSAwIG9iago8PAovQmFzZUZvbnQgL0hlbHZldGljYS1PYmxpcXVlIC9FbmNvZGluZyAvV2luQW5zaUVuY29kaW5nIC9OYW1lIC9GMyAvU3VidHlwZSAvVHlwZTEgL1R5cGUgL0ZvbnQKPj4KZW5kb2JqCjYgMCBvYmoKPDwKL0NvbnRlbnRzIDExIDAgUiAvTWVkaWFCb3ggWyAwIDAgNjEyIDc5MiBdIC9QYXJlbnQgOSAwIFIgL1Jlc291cmNlcyA8PAovRm9udCAxIDAgUiAvUHJvY1NldCBbIC9QREYgL1RleHQgL0ltYWdlQiAvSW1hZ2VDIC9JbWFnZUkgXQo+PiAvUm90YXRlIDAgL1RyYW5zIDw8Cgo+PiAKICAvVHlwZSAvUGFnZQo+PgplbmRvYmoKNyAwIG9iago8PAovUGFnZU1vZGUgL1VzZU5vbmUgL1BhZ2VzIDkgMCBSIC9UeXBlIC9DYXRhbG9nCj4+CmVuZG9iago4IDAgb2JqCjw8Ci9BdXRob3IgKFwoYW5vbnltb3VzXCkpIC9DcmVhdGlvbkRhdGUgKEQ6MjAyNjA0MTkyMDE2NDYrMDAnMDAnKSAvQ3JlYXRvciAoXCh1bnNwZWNpZmllZFwpKSAvS2V5d29yZHMgKCkgL01vZERhdGUgKEQ6MjAyNjA0MTkyMDE2NDYrMDAnMDAnKSAvUHJvZHVjZXIgKFJlcG9ydExhYiBQREYgTGlicmFyeSAtIFwob3BlbnNvdXJjZVwpKSAKICAvU3ViamVjdCAoXCh1bnNwZWNpZmllZFwpKSAvVGl0bGUgKFwoYW5vbnltb3VzXCkpIC9UcmFwcGVkIC9GYWxzZQo+PgplbmRvYmoKOSAwIG9iago8PAovQ291bnQgMiAvS2lkcyBbIDQgMCBSIDYgMCBSIF0gL1R5cGUgL1BhZ2VzCj4+CmVuZG9iagoxMCAwIG9iago8PAovRmlsdGVyIFsgL0FTQ0lJODVEZWNvZGUgL0ZsYXRlRGVjb2RlIF0gL0xlbmd0aCA1ODcKPj4Kc3RyZWFtCkdhdCR0PyNTMVcmOkY1VVFtV1JkcS9VaHJjU28pQCxaTF41alpYZ1dpWnE5MEBRV01UJmtNcUZlckssMVRMLmlmWUFcaE4xSDJvbTg3J2UxMmA1UUZASV0oOyRKPm9iS2d0YkdiOk5LLmQ7VnVmaUYuP09RNCNaKkEuZlNaI2pKSTMjKGhnLDJGNHM5KUQ4NXM2Xzg6LElWVD5YWHMyT0RuYjgvPnAxM0chLmFtNlFGNjkvSzBpWlByUmU+Mj5VN2NyOVJHRll0bCE5Mj0yU0ZPMF4tcVo0ZmJKL2doa3RcWU5lcGZMVCNkLShIbVBaVmZlLGdbQDFnXk5Da3NzJzFZSidRKkVCI3BGXks+KF8rTmxKN25yJ3NPPEIxQlJPKUhlYTpFUWNrPXNmTCYhKGtpZy9uLzQwLlg6ZmYiSV9POytzXzFDLVxFOUs0RidpSGtKW3M7Kl1WTXA+Wy1DR3AlY0pEPUJncHJJZz88U0RabChXYmAwYVtWUyIlN0cwNTwkJGs8YUxzTipcQThUcUxhSy5tTUBNPUVhVWVGT2NJV0knRllZSXI3ME9FTEstVlpSRVw9M0pwQCdpPkduTlpuaEBLK103QTgkXl5KcGNSNURRJVY4J2A/PTtCPyhYa2xjMnJXJ1cyVyQyQGk1VlEyQDwvJ1I1MjlhZkZrQGpsVjQsbTteL09hczFPZ2tEL091PWEsdS4mJ1ooOU1uRDJdcTxeaSZROUYiZlg3Ikh1QUdHN3RTb245Zz0/SEcrV3NJKktdNiliTH4+ZW5kc3RyZWFtCmVuZG9iagoxMSAwIG9iago8PAovRmlsdGVyIFsgL0FTQ0lJODVEZWNvZGUgL0ZsYXRlRGVjb2RlIF0gL0xlbmd0aCAyODcyCj4+CnN0cmVhbQpHYiEjXj4/QlJoKDRQRkprXDFmUjxiIV1WNTRcbmtnLkAmbTgyPD9rVGVGN3A2LGc4Zlo1bl0hcVVxI1BhKFouZU5APilKYDo2Om5lKSZnOV47cS9FbjtIdT4zKDwlSU1HPz9DS0YrKygsNCZKY1JcJDpqb11ZYGc+aTRmQC1qaExJbVk2cTY0dDVZYlg2NDx0KiwyIk1VNis6dWhwaV0tUUU+VVQyJEBlLnBoalZyZU9fOTMwYi9TQXEvMFNlOydUUyExQjonNixYTEJtaWM1IT80O2ElKWVfLWlkSWxkS2lwXz9OPFU/Ui5BUFxeJ00nXiE8by5VYXJVSjFJNzg4MCoxQmI0SG8tRWgoTF44WURZTGN0JUpjZ009Zl0wak02OSwtSFFoISpQPVBALSJGPU9NTEZlPV5WckRfZSdzPidnMUk0KGgzTHJRbjNMLSZDOF10UkljQyEzPy9oZDhiZWZlMG1lW2ZbJU0qU285LXM4Wyw8LVRMTS9TdTVGT1xNNE8tZUljcU8hVj5BPCwiNGpxZlcxLE5KcWNmKFIoOSguJGBmOG8oVUBOZjk1bnNDY3ItPUo7PThaPjIpZC91JmkhIjI2KTY5XDQrbGAlKVFfLklYMGs7OTYlPTlca1A7L0xqUDonWVJIcjdFMjFOTllNUy1CbUU9alhEYXRzLEA2Q2lTXyJbPXBuWnBGTERnZEQ+RGlTPmleMVZvb1tlIl5AamhyX2ZkNVU2K1MqNSxrLW5MNFs4UzBtMDBrY0lYQi9yJC1UaT9rXFElWmZjNCQkUEMnMyZecismWmw0OWxLbztwIzdAbl5QIVIrVEBVNkFRL0VyXnBrLUk3SnFKSEo4XkNqLFEraW0xPEU8J1M3TS86U2olNkJeZ2NIMDg8dUBdIyZ0TVw+MEVMLWw6bWM8SD9PcUUsJTs6X0I4dWJEMSRNMiQrN3I7LXRuSjk2ZlxWXUotUWpOK1BbTFNRa2JpNS1BZjY9KmguNU4obmhqSmJxNWw9QEAoaVhuUGs7aXMlTm1TWTtDP1tWVE9hMD1XbmBAI0d0UlhyXGhtOl9laGEvPW5WSVs+OkdzSFs3c3VFRU5oJ2Q5ZTBZU1h0TWE/Y29JUj1RMnVWbypkZHNLamBgV2ItajsydXByX1M/OCUyQmw4QCQhJy9tNj1QMyllVSg7OW5XXFsyK1VEPDlGWnRoKFwrJm0iaWUuQGhLbjcjIjNfOy5fP0E5TihNOXRLcXFrQ2QiN3JVN21rUEo2RS5LUjliWVtibWdTPCkuQCpYNlQjN0pNLiczOiYmPDEwNzIsWFxjRjAzSCtXNkYzM1YnPXJSTz9oWTY3NzpDXENSVlwrQlJRZDdbIkQmUzkqZEktXGFBS1AvcFhQN0NDTSljYlI2PjBfSFNXYkJtKm1uQGJbR0ltJmxgO05MNHNySi9BW0xPO0ZraTxqWVA4Pic9N0ZiSD0zVW5eSm1ZQnUpLCczbklpJUohcDpCRVYhLnE4Zl0iYD4sLmAwZS8qLjYxLCJYdGlvZF9COFtaazdSZFg5S1AiRStMcl1gKzBgPDhvPGNaY1xnbERdNFZiKmNaYjoxU1E9MihbcV5ONlFJXVFyNzxTcGdgXXVaUVxzRy0mXnVBbDkjWGJMcl0tOjtLUC9qPSVKVXEnc0paUC9kPDRkTW5NJ2ViRkI+bDlYXzdbPy1yS2NWPjNTb19mViNTZD1DXC1jNjpZMz1gR2ckK3FcbCtDSyttQ0Y3XWNaKUE9NShHNls4Rzs9RzhMTyxcLCYsVWI2RV8qZjZTIktHYzNRJCZUTyFIYmdBci5eXTMndHNOXURFYzxkP20obVFCWmF1cWFVJF9rM05wNj1cRTc7bDtFZjhbaCpJSmxBYXBlUFRNVzhGLGNyS2pVVCRTI20sMCNjbT1XIzw3JCFWaj0uRC5sQWU8bXNVMUY0TiE4NXAjZC9cX2MzczNtcmRyN2FnLT1mRXArZyFBIiFZYnJnMi1WUUZSXklFP1xZJSQzZytGZyhRW0w/JyxKTWJJYUgpMWYhUD87cDhhKS80Zk5dKlVOJFdrTiNvIVkzU15sTnVTakI8Yi5uaz1kXVBvTW0mR046NmtzcmZbZSVBOWNvKTRoQ3BbaiEyUk5DcmtsJShnIjw3MDFvVWB0TkEiVSQ3Q2VfJkJuK2xvbGU9Y2xSWTZKZ2JvUDs2VV49byJSKEYzMlhiSj47UFRqS2shc0t1c0ozaXJRVGhIRDhfXio9ZlkyTW9VYyc0bEBFamZuJDQ5anQmLDJnVEVjI2ZaN0E/XnFUYio0UmNbQlRPWDlELmNcLjU+Li5rQ2lXMSU0UFIiRTNHIzVWQWxFWTohcWhqdHE8XUVJPTdDIVVTNlRYKDRTPWdjTVdYMkRPLkRvayZMZj4nIkBCL2VgVXIhN0dQcWk1UldZa1hJWlQ+XkRKaEhDIj48bDBvIyVEOT9UNiwxaDljLEJhPnAmSTBjKiJvLVRpa3RbSUE2LlU1TUVoJExCNCcyNSNjQT9oKTkkcCVWcyc/Si11JDBJWSdORHFuKyhcZkpSKV4wLXElQU1gL2xrXixZT1poJi9gI2xTJCNBXGglZE9pLE8zUElxUSphbzUnIiRZTCdiaEQpQmc5L0NgODE+VUIkWCVWXz1GXU47TElbPT1XZztsclVqXUU0KSNDUm1mP1xDbV0wLFxxPT4pVVMwRGVyS0BhNzZsVFQoRV9YZ2E0IT9TTzM6dTNvR2dVKSoxaWN1cCoubyRTN19CakgrVCVxPDFobmFOSSE5ZjJoTzhXWigwQDkxXGtxN0dubW51Sl9WJk5Ja3QtS1s5Smk+QXQ/M2BsT0dpNkw/TUxzLnQ6Q01oKyNMbUtLR1tuYXIvRypLQ0NhcT4mMVpsSWF0LVZGXSt1XFxDS1EraktuW11gZ1RCW1BLcVpUMmpjKkxBdVRbdFI4MUUmOi5BLjpuc0dtciI+L0dMM2goMz44MmoxWFxfM1xKWG1HcmFeTkZlJFJsazxRW2JLSmdibz07ZlJiUkQ7REMvUj5HYS9yJXBdPlwnMVtPMToiRywxZFU5OjlYbk9oRGYxZGp1VFxRIj1vP11pVFVhXmo1aCkiRkZWMDZHaD1dQDtJJjBHPTlpcE1zTCtGbS9gbiZzRDEhO246SnMiRFd1ZnJWaHRSZUJnMEddYUQyI2ZeJVloSzxMK0BgbWBsT0x0TDI4ZVlPLjo5ZT1ebVshImQ+KTZEazNOVl9wJ1ohNzIxUDtrakQzWD1DNDFRdHViSyg/UGJNLUA0IkgqOVs2WS1sZzdkMi0mc189VjciKjUpPTspNV9MXF02ViRYRSlSQ2lnPTlTTjJRTVNQQ0FbQi1ZJ0cxb1s4ajRGTDdxc04/X2lVY0ArKjhfJVc5UFQ1XGgiZSVPcjAzJ0gra1YuYzhxN2NSYkd1LG83JWgtTUAhWU1EOS1dO1FrWSlcQkZccGMyN1tNZlYjXE9lY2pBW25HVW48Yk9hXVMhMyVtb0xaXGJcK1tKNmZBTTo5VmVoWz9URzw7T3JGLlYzb2ZsMkY2OigmPSFvRVgpJmQvblQqYD9JSihmYTNtcmZvNVhtYkVVMCs0aFtiVnA3KiolLUduRUkwcikmMWNJQigta1laVmhuQ1QtKTZkIXJFMSk9JmA8RS5EUzknQmAoWjtBKVNfQ0ZCT1NlSVZGcTZ0OTwsW3JiJjNgRidGL2FqdVUrM1dgci8vLUk4WSZvZT9SPCZxPW9XVV5MLWkhUmJBRWYsPE1sXWB0LmlgKGcyQCtEaW1xQyVpK0VlPWA2TColb3I1T1NyTzNsOmhXVDQpOX4+ZW5kc3RyZWFtCmVuZG9iagp4cmVmCjAgMTIKMDAwMDAwMDAwMCA2NTUzNSBmIAowMDAwMDAwMDYxIDAwMDAwIG4gCjAwMDAwMDAxMTIgMDAwMDAgbiAKMDAwMDAwMDIxOSAwMDAwMCBuIAowMDAwMDAwMzMxIDAwMDAwIG4gCjAwMDAwMDA1MjUgMDAwMDAgbiAKMDAwMDAwMDY0MCAwMDAwMCBuIAowMDAwMDAwODM0IDAwMDAwIG4gCjAwMDAwMDA5MDIgMDAwMDAgbiAKMDAwMDAwMTE4MiAwMDAwMCBuIAowMDAwMDAxMjQ3IDAwMDAwIG4gCjAwMDAwMDE5MjUgMDAwMDAgbiAKdHJhaWxlcgo8PAovSUQgCls8MWRhZjdjZTU1MTllMmZlMTNkYmNmY2QxYTYzNWNiYmU+PDFkYWY3Y2U1NTE5ZTJmZTEzZGJjZmNkMWE2MzVjYmJlPl0KJSBSZXBvcnRMYWIgZ2VuZXJhdGVkIFBERiBkb2N1bWVudCAtLSBkaWdlc3QgKG9wZW5zb3VyY2UpCgovSW5mbyA4IDAgUgovUm9vdCA3IDAgUgovU2l6ZSAxMgo+PgpzdGFydHhyZWYKNDg4OQolJUVPRgo=';
+  const DOCX_B64 = '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';
+  const pages = ['home','about','experience','notes','contact'];
+
+  function downloadCV(format) {
+    const link = document.createElement('a');
+    if (format === 'pdf') {
+      link.href = 'data:application/pdf;base64,' + PDF_B64;
+      link.download = 'Ananda_Kumar_Kakara_CV.pdf';
+    } else {
+      link.href = 'data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;base64,' + DOCX_B64;
+      link.download = 'Ananda_Kumar_Kakara_CV.docx';
+    }
+    link.click();
+    document.getElementById('dlDropdown').style.display = 'none';
+  }
+
+  function toggleDropdown(e) {
+    e.stopPropagation();
+    ['dlDropdown','dlDropdown2'].forEach(id => {
+      const dd = document.getElementById(id);
+      if (dd) dd.style.display = dd.style.display === 'block' ? 'none' : 'block';
+    });
+  }
+
+  document.addEventListener('click', () => {
+    ['dlDropdown','dlDropdown2'].forEach(id => {
+      const dd = document.getElementById(id);
+      if (dd) dd.style.display = 'none';
+    });
+  });
+
+  function showPage(name) {
+    pages.forEach(p => {
+      document.getElementById('page-' + p).classList.remove('active');
+      document.getElementById('nav-' + p).classList.remove('active');
+    });
+    document.getElementById('page-' + name).classList.add('active');
+    document.getElementById('nav-' + name).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // close mobile menu
+    document.getElementById('navLinks').classList.remove('open');
+  }
+
+  function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('open');
+  }
+
+  function sendMessage(e) {
+    e.preventDefault();
+    const name    = document.getElementById('senderName').value;
+    const company = document.getElementById('companyName').value;
+    const subject = document.getElementById('subject').value;
+    const msg     = document.getElementById('message').value;
+
+    const body = encodeURIComponent(
+      'Hi Ananda,\n\nMy name is ' + name + ' from ' + company + '.\n\n' + msg + '\n\nBest regards,\n' + name
+    );
+    window.location.href = 'mailto:kakaraanandkumar6@gmail.com'
+      + '?subject=' + encodeURIComponent('[Recruiter] ' + subject)
+      + '&body=' + body;
+
+    document.getElementById('successMsg').style.display = 'block';
+    document.getElementById('recruiterForm').reset();
+  }
+</script>
+</body>
+</html>
